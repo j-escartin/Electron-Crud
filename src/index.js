@@ -34,7 +34,6 @@ ipcMain.on('submitStudent', (event, data) => {
 })
 
 ipcMain.on('getStudents', (event, data) => {
-  console.log('Hello')
   getAllStudents()
   .then((students) => {
     event.reply('receiveStudents', students)

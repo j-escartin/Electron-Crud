@@ -12,6 +12,8 @@ form.addEventListener('submit', (event) => {
 
   ipcRenderer.send('submitStudent', {name, email})
 
+  ipcRenderer.send('getStudents');
+
   alert('New Student has been enrolled')
 
   document.getElementById('name').value = ''
@@ -22,6 +24,7 @@ ipcRenderer.send('getStudents');
 
 ipcRenderer.on('receiveStudents', (event, students) => {
   const studentList = document.getElementById('studentList')
+  studentList.innerHTML = ""
 
   students.forEach((student) => {
     const row = document.createElement('tr')
@@ -37,6 +40,10 @@ ipcRenderer.on('receiveStudents', (event, students) => {
     const emailCell = document.createElement('td')
     emailCell.textContent = student.email
     row.appendChild(emailCell)
+
+    const actionCell = document.createElement('td')
+    actionCell.innerHTML = "<button class='btn btn-primary'>Edit</button> <button class='btn btn-warning'>Delete</button>"
+    row.appendChild(actionCell)
 
     studentList.appendChild(row)
   })
