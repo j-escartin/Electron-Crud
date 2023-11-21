@@ -18,7 +18,46 @@ const getAllStudents = () => {
   })
 }
 
+const getStudent = (id) => {
+  return new Promise((resolve, reject) => {
+    db.get('SELECT * FROM students WHERE id = ?', [id], (err, row) => {
+      if(err) {
+        reject(err)
+      } else {
+        resolve(row)
+      }
+    })
+  })
+}
+
+const deleteStudent = (id) => {
+  return new Promise((resolve, reject) => {
+    db.run('DELETE FROM students WHERE id = ?', [id], (err) => {
+      if(err) {
+        reject(err)
+      } else {
+        resolve({message: 'Student was successfully deleted'})
+      }
+    })
+  })
+}
+
+const updateStudent = (id, name, email) => {
+  return new Promise((resolve, reject) => {
+    db.run('UPDATE students SET name = ?, email = ? WHERE id = ?', [name, email, id], (err) => {
+      if(err){
+        reject(err)
+      } else {
+        resolve({message : 'Student was successfully updated!'})
+      }
+    })
+  })
+}
+
 module.exports = {
   insertStudent,
-  getAllStudents
+  getAllStudents,
+  getStudent,
+  deleteStudent,
+  updateStudent
 }
